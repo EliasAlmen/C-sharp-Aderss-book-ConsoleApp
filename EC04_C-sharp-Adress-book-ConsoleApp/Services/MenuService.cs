@@ -22,14 +22,35 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
         {
             Console.WriteLine("_____________________________________________________________________________\n\n");
         }
-        private void MainMenuInputValidation(string userInput) 
+        public string MainMenuInputValidation(string userInput) 
         {
-            while (userInput == "1" && userInput == "2" && userInput == "3" && userInput == "4")
+            bool validation = true;
+            while (validation)
             {
-                Console.WriteLine("\nPlease input a valid number\n");
-                Console.Write("Input: ");
-                userInput = Console.ReadLine();
+                if (userInput == "1")
+                {
+                    validation = false;
+                }
+                else if (userInput == "2")
+                {
+                    validation = false;
+                }
+                else if (userInput == "3")
+                {
+                    validation = false;
+                }
+                else if (userInput == "4")
+                {
+                    validation = false;
+                }
+                else
+                {
+                    Console.WriteLine("\nPlease input a valid number\n");
+                    Console.Write("Input: ");
+                    userInput = Console.ReadLine();
+                }
             }
+            return userInput;
         }
 
         public void MainMenu() 
@@ -45,11 +66,11 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             MenuFooter();
 
             Console.Write("Your input: ");
-            var userInput = Console.ReadLine();
+            string userInput = Console.ReadLine();
 
-            MainMenuInputValidation(userInput);
+            var result = MainMenuInputValidation(userInput);
 
-            switch (userInput)
+            switch (result)
             {
                 case "1":
                     Console.Clear();
@@ -90,23 +111,23 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             
             Console.Write("First name: ");
             var firstName = Console.ReadLine();
-            firstName = contact.FirstName;
-            
+            contact.FirstName = firstName ?? null!;
+
             Console.Write("Last name: ");
-            var LastName = Console.ReadLine();
-            LastName = contact.LastName;
+            var lastName = Console.ReadLine();
+            contact.LastName = lastName ?? null!;
 
             Console.Write("Email: ");
             var email = Console.ReadLine();
-            email = contact.Email;
+            contact.Email = email ?? null!;
 
             Console.Write("Phone number: ");
             var phoneNumber = Console.ReadLine();
-            phoneNumber = contact.PhoneNumber;
+            contact.PhoneNumber = phoneNumber ?? null!;
 
             Console.Write("Adress: ");
             var adress = Console.ReadLine();
-            adress = contact.Address;
+            contact.Address = adress ?? null!;
 
             contacts.Add(contact);
 
@@ -122,18 +143,93 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             }
             else
             {
-                Console.WriteLine("Your adress book contains the following contacts: test ");
+                //string fname = "First name";
+                //string lname = "Last name";
+                //string email = "Email";
+                Console.WriteLine("Your adress book contains the following contacts: \n");
+                //Console.ForegroundColor = ConsoleColor.Black;
+                //Console.BackgroundColor = ConsoleColor.DarkGray;
+                //Console.WriteLine($"{fname, -20}" + $"{lname,-20}" + $"{email,-20}");
+                //Console.ResetColor();
                 foreach (IContact contact in contacts)
                 {
-                    Console.WriteLine($"{contact.FirstName} \t {contact.LastName} \t {contact.Email}");
+                    Console.WriteLine($"{contact.FirstName, -20}" + $"{contact.LastName, -20}" + $"{contact.Email, -20}");
+                    System.Threading.Thread.Sleep(200);
+                    /*
+                     So funny.. I spent alot of time building the if-statements below. But only to find out later that i can reserve space like above ', -20'
+                     */
+
+                    //if (contact.FirstName.Length <= 6 && contact.LastName.Length <= 5)
+                    //{
+                    //    Console.WriteLine($"{contact.FirstName}" + "\t" + "\t" + $"{contact.LastName}" + "\t" + "\t" + "\t" + "\t" + $"{contact.Email}");
+                    //}
+                    //else if (contact.FirstName.Length <= 7 && contact.LastName.Length <= 5)
+                    //{
+                    //    Console.WriteLine($"{contact.FirstName}" + "\t" + "\t" + $"{contact.LastName}" + "\t" + "\t" + "\t" + "\t" + $"{contact.Email}");
+                    //}
+                    //else if (contact.FirstName.Length <= 7 && contact.LastName.Length <= 7)
+                    //{
+                    //    Console.WriteLine($"{contact.FirstName}" + "\t" + "\t" + $"{contact.LastName}" + "\t" + "\t" + "\t" + "\t" + $"{contact.Email}");
+                    //}
+                    //else if (contact.FirstName.Length <= 7 && contact.LastName.Length <= 10)
+                    //{
+                    //    Console.WriteLine($"{contact.FirstName}" + "\t" + "\t" + $"{contact.LastName}" + "\t" + "\t" + "\t" + $"{contact.Email}");
+                    //}
+                    //else if (contact.FirstName.Length <= 7 && contact.LastName.Length >= 11)
+                    //{
+                    //    Console.WriteLine($"{contact.FirstName}" + "\t" + "\t" + $"{contact.LastName}" + "\t" + "\t" + "\t" + $"{contact.Email}");
+                    //}
+                    //else if (contact.FirstName.Length >= 8 && contact.LastName.Length <= 10)
+                    //{
+                    //    Console.WriteLine($"{contact.FirstName}" + "\t" + $"{contact.LastName}" + "\t" + "\t" + "\t" + $"{contact.Email}");
+                    //}
+
                 }
+                
 
             }
-            Console.ReadKey();
+            Console.WriteLine("\n\nPress any key to contiune.");
+            Console.ReadKey(true);
         }
         private void SubMenuThree()
         {
+            if (contacts.Count == 0)
+            {
+                Console.WriteLine("Sorry! your adress book is empty...\n");
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
 
+            }
+            else
+            {
+                Console.WriteLine("Your adress book contains the following contacts: \n");
+                int i = 1;
+                foreach (IContact contact in contacts)
+                {
+                    Console.WriteLine($"#{i++, -5}" + $"{contact.FirstName, -20}" + $"{contact.LastName, -20}");
+                    System.Threading.Thread.Sleep(200);
+
+                }
+                string fname = "First name:";
+                string lname = "Last name:";
+                string email = "Email:";
+                string phone = "Phone number:";
+                string adress = "Adress:";
+                Console.WriteLine("Enter contact position and press 'Enter' to see details.");
+                var contactNumber = Convert.ToInt32(Console.ReadLine());
+                contactNumber -= 1;
+                Console.WriteLine($"{fname, -15} {contacts[contactNumber].FirstName, -20}");
+                System.Threading.Thread.Sleep(200);
+                Console.WriteLine($"{lname,-15} {contacts[contactNumber].LastName, -20}");
+                System.Threading.Thread.Sleep(200);
+                Console.WriteLine($"{email,-15} {contacts[contactNumber].Email, -20}");
+                System.Threading.Thread.Sleep(200);
+                Console.WriteLine($"{phone,-15} {contacts[contactNumber].PhoneNumber, -20}");
+                System.Threading.Thread.Sleep(200);
+                Console.WriteLine($"{adress,-15} {contacts[contactNumber].Address, -20}");
+            }
+            Console.WriteLine("\n\nPress any key to contiune.");
+            Console.ReadKey(true);
         }
         private void SubMenuFour()
         {
