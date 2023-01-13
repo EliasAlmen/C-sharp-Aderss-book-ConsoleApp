@@ -1,4 +1,5 @@
 ﻿using EC04_C_sharp_Adress_book_ConsoleApp.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
     {
         
         private List<IContact> contacts = new List<IContact>();
+        private DatabaseService db = new DatabaseService();
+
+        public string FilePath { get; set; } = null!;
         
         private void MenuHeadings()
         {
@@ -46,8 +50,8 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                 else
                 {
                     Console.WriteLine("\nPlease input a valid number\n");
-                    Console.Write("Input: ");
-                    userInput = Console.ReadLine();
+                    Console.Write("Your input: ");
+                    userInput = Console.ReadLine() ?? "";
                 }
             }
             return userInput;
@@ -66,7 +70,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             MenuFooter();
 
             Console.Write("Your input: ");
-            string userInput = Console.ReadLine();
+            string userInput = Console.ReadLine() ?? "";
 
             var result = MainMenuInputValidation(userInput);
 
@@ -131,14 +135,17 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
 
             contacts.Add(contact);
 
+            db.Save(FilePath, JsonConvert.SerializeObject(new { contacts }));
         }
         private void SubMenuTwo()
         {
             if (contacts.Count == 0)
             {
                 Console.WriteLine("Sorry! your adress book is empty...\n");
+                MenuFooter();
                 Console.WriteLine("Press any key to continue.");
-                Console.ReadKey();
+                Console.ReadKey(true);
+                return;
 
             }
             else
@@ -185,7 +192,8 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                     //}
 
                 }
-                
+                MenuFooter();
+
 
             }
             Console.WriteLine("\n\nPress any key to contiune.");
@@ -196,8 +204,10 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             if (contacts.Count == 0)
             {
                 Console.WriteLine("Sorry! your adress book is empty...\n");
+                MenuFooter();
                 Console.WriteLine("Press any key to continue.");
                 Console.ReadKey();
+                return;
 
             }
             else
@@ -210,30 +220,87 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                     System.Threading.Thread.Sleep(200);
 
                 }
+                MenuFooter();
                 string fname = "First name:";
                 string lname = "Last name:";
                 string email = "Email:";
                 string phone = "Phone number:";
                 string adress = "Adress:";
-                Console.WriteLine("Enter contact position and press 'Enter' to see details.");
+                Console.WriteLine("\nEnter contact position and press 'Enter' to see details.\n");
+                Console.Write("Your input: ");
                 var contactNumber = Convert.ToInt32(Console.ReadLine());
                 contactNumber -= 1;
-                Console.WriteLine($"{fname, -15} {contacts[contactNumber].FirstName, -20}");
+                Console.Clear();
+                MenuHeadings(); 
+                Console.WriteLine($"{fname, -20} {contacts[contactNumber].FirstName, -20}");
                 System.Threading.Thread.Sleep(200);
-                Console.WriteLine($"{lname,-15} {contacts[contactNumber].LastName, -20}");
+                Console.WriteLine($"{lname,-20} {contacts[contactNumber].LastName, -20}");
                 System.Threading.Thread.Sleep(200);
-                Console.WriteLine($"{email,-15} {contacts[contactNumber].Email, -20}");
+                Console.WriteLine($"{email,-20} {contacts[contactNumber].Email, -20}");
                 System.Threading.Thread.Sleep(200);
-                Console.WriteLine($"{phone,-15} {contacts[contactNumber].PhoneNumber, -20}");
+                Console.WriteLine($"{phone,-20} {contacts[contactNumber].PhoneNumber, -20}");
                 System.Threading.Thread.Sleep(200);
-                Console.WriteLine($"{adress,-15} {contacts[contactNumber].Address, -20}");
+                Console.WriteLine($"{adress,-20} {contacts[contactNumber].Address, -20}");
+                MenuFooter();
             }
             Console.WriteLine("\n\nPress any key to contiune.");
             Console.ReadKey(true);
         }
         private void SubMenuFour()
         {
+            if (contacts.Count == 0)
+            {
+                Console.WriteLine("Sorry! your adress book is empty...\n");
+                MenuFooter();
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey(true);
+                return;
 
+            }
+            else
+            {
+                Console.WriteLine("Your adress book contains the following contacts: \n");
+                int i = 1;
+                foreach (IContact contact in contacts)
+                {
+                    Console.WriteLine($"#{i++,-5}" + $"{contact.FirstName,-20}" + $"{contact.LastName,-20}");
+                    System.Threading.Thread.Sleep(200);
+
+                }
+                MenuFooter();
+                Console.WriteLine("\nEnter contact position and press 'Enter' to DELETE.\n");
+                Console.Write("Your input: ");
+                var contactNumber = Convert.ToInt32(Console.ReadLine());
+                contactNumber -= 1;
+                Console.Clear();
+                MenuHeadings(); 
+                Console.WriteLine($"Are you sure you want to delete contact: {contacts[contactNumber].FirstName} {contacts[contactNumber].LastName} ? y/n");
+                MenuFooter();   
+                Console.Write("Your input: ");
+                var awnser = Console.ReadLine();
+                Console.Clear();
+                if (awnser.ToLower() == "y")
+                {
+                    contacts.RemoveAt(contactNumber);
+                    MenuHeadings();
+                    Console.WriteLine("Contact was removed.");
+                    MenuFooter();
+                    Console.WriteLine("\n\nPress any key to contiune.");
+                    Console.ReadKey(true);
+                    return;
+                }
+                else
+                {
+                    MenuHeadings();
+                    Console.WriteLine("No contact was deleted.");
+                    MenuFooter();
+                    Console.WriteLine("\n\nPress any key to contiune.");
+                    Console.ReadKey(true);
+                    return;
+                }
+            }
+            Console.WriteLine("\n\nPress any key to contiune.");
+            Console.ReadKey(true);
         }
     }
 }
