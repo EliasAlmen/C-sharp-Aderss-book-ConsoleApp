@@ -3,70 +3,29 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
 {
+
+
     internal class MenuService
     {
         
-        private List<IContact> contacts = new List<IContact>();
-        private DatabaseService db = new DatabaseService();
+        private List<Contact> contacts = new List<Contact>();
+        private readonly DatabaseService datab = new();
 
         public string FilePath { get; set; } = null!;
         
-        private void MenuHeadings()
-        {
-            Console.Clear();
-            Console.WriteLine("THE ADRESS BOOK");
-            Console.WriteLine("_____________________________________________________________________________\n");
-        }
-        private void MenuFooter()
-        {
-            Console.WriteLine("_____________________________________________________________________________\n\n");
-        }
-        public string MainMenuInputValidation(string userInput) 
-        {
-            bool validation = true;
-            while (validation)
-            {
-                if (userInput == "1")
-                {
-                    validation = false;
-                }
-                else if (userInput == "2")
-                {
-                    validation = false;
-                }
-                else if (userInput == "3")
-                {
-                    validation = false;
-                }
-                else if (userInput == "4")
-                {
-                    validation = false;
-                }
-                else
-                {
-                    Console.WriteLine("\nPlease input a valid number\n");
-                    Console.Write("Your input: ");
-                    userInput = Console.ReadLine() ?? "";
-                }
-            }
-            return userInput;
-        }
 
         public void MainMenu() 
         {
+        
+
+            PopulateContacts();
             MenuHeadings();
-
-            Console.WriteLine("Choose an option by pressing a number on your keyboard and then hitting Enter.\n");
-            Console.WriteLine("1. Create a contact");
-            Console.WriteLine("2. Show all contacts");
-            Console.WriteLine("3. Show a specific contact");
-            Console.WriteLine("4. Remove a contact");
-
+            MenuOptions();
             MenuFooter();
 
             Console.Write("Your input: ");
@@ -107,9 +66,85 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             }
         }
 
+        private void PopulateContacts()
+        {
+            //var incoming = new List<Contact>();
+            //using (StreamReader r = new StreamReader(FilePath))
+            //{
+            //    string json = r.ReadToEnd();
+            //    incoming = JsonSerializer.Deserialize<List<Contact>>(json);
+            //}
+            //if (incoming != null && incoming.Count > 0)
+            //{
+            //    contacts = incoming;
+            //}
+            //else
+            //{
+            //    contacts = new List<Contact>();
+            //}
+            try
+            {
+                //List<Contact> contacts = JsonConvert.DeserializeObject<List<Contact>>(datab.Read(FilePath));
+                var items = JsonConvert.DeserializeObject<List<Contact>>(datab.Read(FilePath));
+                if (items != null)
+                {
+                    contacts = items;
+                }
+            }
+            catch { }
+        }
+        private void MenuHeadings()
+        {
+            Console.Clear();
+            Console.WriteLine("THE ADRESS BOOK");
+            Console.WriteLine("_____________________________________________________________________________\n");
+        }
+        private void MenuFooter()
+        {
+            Console.WriteLine("_____________________________________________________________________________\n\n");
+        }
+        public string MainMenuInputValidation(string userInput)
+        {
+            bool validation = true;
+            while (validation)
+            {
+                if (userInput == "1")
+                {
+                    validation = false;
+                }
+                else if (userInput == "2")
+                {
+                    validation = false;
+                }
+                else if (userInput == "3")
+                {
+                    validation = false;
+                }
+                else if (userInput == "4")
+                {
+                    validation = false;
+                }
+                else
+                {
+                    Console.WriteLine("\nPlease input a valid number\n");
+                    Console.Write("Your input: ");
+                    userInput = Console.ReadLine() ?? "";
+                }
+            }
+            return userInput;
+        }
+
+        private void MenuOptions()
+        {
+            Console.WriteLine("Choose an option by pressing a number on your keyboard and then hitting Enter.\n");
+            Console.WriteLine("1. Create a contact");
+            Console.WriteLine("2. Show all contacts");
+            Console.WriteLine("3. Show a specific contact");
+            Console.WriteLine("4. Remove a contact");
+        }
         private void SubMenuOne()
         {
-            IContact contact = new Contact();
+            var contact = new Contact();
             Console.WriteLine("Please enter the following information about your new contact.\nConfirm by pressing Enter.");
             MenuFooter();
             
@@ -135,7 +170,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
 
             contacts.Add(contact);
 
-            db.Save(FilePath, JsonConvert.SerializeObject(new { contacts }));
+            datab.Save(FilePath, JsonConvert.SerializeObject(contacts));
         }
         private void SubMenuTwo()
         {
@@ -158,7 +193,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                 //Console.BackgroundColor = ConsoleColor.DarkGray;
                 //Console.WriteLine($"{fname, -20}" + $"{lname,-20}" + $"{email,-20}");
                 //Console.ResetColor();
-                foreach (IContact contact in contacts)
+                foreach (Contact contact in contacts)
                 {
                     Console.WriteLine($"{contact.FirstName, -20}" + $"{contact.LastName, -20}" + $"{contact.Email, -20}");
                     System.Threading.Thread.Sleep(200);
@@ -214,7 +249,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             {
                 Console.WriteLine("Your adress book contains the following contacts: \n");
                 int i = 1;
-                foreach (IContact contact in contacts)
+                foreach (Contact contact in contacts)
                 {
                     Console.WriteLine($"#{i++, -5}" + $"{contact.FirstName, -20}" + $"{contact.LastName, -20}");
                     System.Threading.Thread.Sleep(200);
@@ -261,7 +296,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             {
                 Console.WriteLine("Your adress book contains the following contacts: \n");
                 int i = 1;
-                foreach (IContact contact in contacts)
+                foreach (Contact contact in contacts)
                 {
                     Console.WriteLine($"#{i++,-5}" + $"{contact.FirstName,-20}" + $"{contact.LastName,-20}");
                     System.Threading.Thread.Sleep(200);
@@ -277,11 +312,12 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                 Console.WriteLine($"Are you sure you want to delete contact: {contacts[contactNumber].FirstName} {contacts[contactNumber].LastName} ? y/n");
                 MenuFooter();   
                 Console.Write("Your input: ");
-                var awnser = Console.ReadLine();
+                var awnser = Console.ReadLine() ?? null!;
                 Console.Clear();
                 if (awnser.ToLower() == "y")
                 {
                     contacts.RemoveAt(contactNumber);
+                    datab.Save(FilePath, JsonConvert.SerializeObject(contacts));
                     MenuHeadings();
                     Console.WriteLine("Contact was removed.");
                     MenuFooter();
@@ -299,8 +335,6 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                     return;
                 }
             }
-            Console.WriteLine("\n\nPress any key to contiune.");
-            Console.ReadKey(true);
         }
     }
 }

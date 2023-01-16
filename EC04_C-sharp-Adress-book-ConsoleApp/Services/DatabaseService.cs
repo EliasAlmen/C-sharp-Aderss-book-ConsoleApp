@@ -8,10 +8,10 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
 {
     internal class DatabaseService
     {
-        public void Save(string filePath, string content)
+        public void Save(string filePath, string contacts)
         {
            using var sw = new StreamWriter(filePath);
-            sw.WriteLine(content);
+            sw.WriteLine(contacts);
         }
 
         public string Read(string filePath) 
