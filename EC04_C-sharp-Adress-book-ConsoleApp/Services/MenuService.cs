@@ -19,15 +19,17 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
         public string FilePath { get; set; } = null!;
         
 
-        public void MainMenu() 
+        public void MainMenu()
         {
-        
-
             PopulateContacts();
             MenuHeadings();
             MenuOptions();
             MenuFooter();
+            UserInput();
+        }
 
+        private void UserInput()
+        {
             Console.Write("Your input: ");
             string userInput = Console.ReadLine() ?? "";
 
@@ -68,23 +70,8 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
 
         private void PopulateContacts()
         {
-            //var incoming = new List<Contact>();
-            //using (StreamReader r = new StreamReader(FilePath))
-            //{
-            //    string json = r.ReadToEnd();
-            //    incoming = JsonSerializer.Deserialize<List<Contact>>(json);
-            //}
-            //if (incoming != null && incoming.Count > 0)
-            //{
-            //    contacts = incoming;
-            //}
-            //else
-            //{
-            //    contacts = new List<Contact>();
-            //}
             try
             {
-                //List<Contact> contacts = JsonConvert.DeserializeObject<List<Contact>>(datab.Read(FilePath));
                 var items = JsonConvert.DeserializeObject<List<Contact>>(datab.Read(FilePath));
                 if (items != null)
                 {
@@ -147,52 +134,56 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             var contact = new Contact();
             Console.WriteLine("Please enter the following information about your new contact.\nConfirm by pressing Enter.");
             MenuFooter();
-            
-            Console.Write("First name: ");
-            var firstName = Console.ReadLine();
+
+            AddContactInfo("First name");
+            var firstName = UserInputContact("firstName");
             contact.FirstName = firstName ?? null!;
 
-            Console.Write("Last name: ");
-            var lastName = Console.ReadLine();
+            AddContactInfo("Last name");
+            var lastName = UserInputContact("lastName");
             contact.LastName = lastName ?? null!;
 
-            Console.Write("Email: ");
-            var email = Console.ReadLine();
+            AddContactInfo("Email");
+            var email = UserInputContact("email");
             contact.Email = email ?? null!;
 
-            Console.Write("Phone number: ");
-            var phoneNumber = Console.ReadLine();
+            AddContactInfo("Phone number");
+            var phoneNumber = UserInputContact("phoneNumber");
             contact.PhoneNumber = phoneNumber ?? null!;
 
-            Console.Write("Adress: ");
-            var adress = Console.ReadLine();
+            AddContactInfo("Adress");
+            var adress = UserInputContact("adress");
             contact.Address = adress ?? null!;
 
             contacts.Add(contact);
 
             datab.Save(FilePath, JsonConvert.SerializeObject(contacts));
         }
+
+        private static string? UserInputContact(string? contactClassProperty)
+        {
+            contactClassProperty = Console.ReadLine();
+            return contactClassProperty;
+        }
+
+        private static void AddContactInfo(string contactInfo)
+        {
+            Console.Write($"{contactInfo}: ");
+        }
+
         private void SubMenuTwo()
         {
             if (contacts.Count == 0)
             {
                 Console.WriteLine("Sorry! your adress book is empty...\n");
                 MenuFooter();
-                Console.WriteLine("Press any key to continue.");
-                Console.ReadKey(true);
+                AnyKey();
                 return;
 
             }
             else
             {
-                //string fname = "First name";
-                //string lname = "Last name";
-                //string email = "Email";
                 Console.WriteLine("Your adress book contains the following contacts: \n");
-                //Console.ForegroundColor = ConsoleColor.Black;
-                //Console.BackgroundColor = ConsoleColor.DarkGray;
-                //Console.WriteLine($"{fname, -20}" + $"{lname,-20}" + $"{email,-20}");
-                //Console.ResetColor();
                 foreach (Contact contact in contacts)
                 {
                     Console.WriteLine($"{contact.FirstName, -20}" + $"{contact.LastName, -20}" + $"{contact.Email, -20}");
@@ -231,8 +222,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
 
 
             }
-            Console.WriteLine("\n\nPress any key to contiune.");
-            Console.ReadKey(true);
+            AnyKey();
         }
         private void SubMenuThree()
         {
@@ -240,8 +230,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             {
                 Console.WriteLine("Sorry! your adress book is empty...\n");
                 MenuFooter();
-                Console.WriteLine("Press any key to continue.");
-                Console.ReadKey();
+                AnyKey();
                 return;
 
             }
@@ -278,8 +267,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                 Console.WriteLine($"{adress,-20} {contacts[contactNumber].Address, -20}");
                 MenuFooter();
             }
-            Console.WriteLine("\n\nPress any key to contiune.");
-            Console.ReadKey(true);
+            AnyKey();
         }
         private void SubMenuFour()
         {
@@ -287,8 +275,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             {
                 Console.WriteLine("Sorry! your adress book is empty...\n");
                 MenuFooter();
-                Console.WriteLine("Press any key to continue.");
-                Console.ReadKey(true);
+                AnyKey();
                 return;
 
             }
@@ -321,20 +308,32 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                     MenuHeadings();
                     Console.WriteLine("Contact was removed.");
                     MenuFooter();
-                    Console.WriteLine("\n\nPress any key to contiune.");
-                    Console.ReadKey(true);
+                    AnyKey();
                     return;
                 }
-                else
+                else if (awnser.ToLower() == "n")
                 {
                     MenuHeadings();
                     Console.WriteLine("No contact was deleted.");
                     MenuFooter();
-                    Console.WriteLine("\n\nPress any key to contiune.");
-                    Console.ReadKey(true);
+                    AnyKey();
+                    return;
+                }
+                else 
+                {
+                    MenuHeadings();
+                    Console.WriteLine("Input not recognized");
+                    MenuFooter();
+                    AnyKey();
                     return;
                 }
             }
+        }
+
+        private static void AnyKey()
+        {
+            Console.WriteLine("\n\nPress any key to contiune.");
+            Console.ReadKey(true);
         }
     }
 }
