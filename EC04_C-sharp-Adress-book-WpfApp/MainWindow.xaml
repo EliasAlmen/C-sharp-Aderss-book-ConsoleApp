@@ -4,9 +4,47 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EC04_C_sharp_Adress_book_WpfApp"
+        xmlns:viewmodels="clr-namespace:EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels"
+        xmlns:views="clr-namespace:EC04_C_sharp_Adress_book_WpfApp.MVVM.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+    <Window.Resources>
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Background" Value="SlateGray" />
+            <Setter Property="Foreground" Value="DarkSlateGray" />
+            <Setter Property="BorderBrush" Value="DarkSlateGray" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="Light" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </Window.Resources>
+    <Grid Background="LightSlateGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Text="The Address book" FontSize="12" FontWeight="Medium" Foreground="DarkSlateGray"/>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <Button Content="Contact list" Style="{StaticResource MenuButton}" Command="{Binding GoToContactListCommand}" />
+            <Button Content="Add contact" Style="{StaticResource MenuButton}" Command="{Binding GoToAddContactCommand}" />
+        </StackPanel>
+        <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:AddContactViewModel}">
+                    <views:AddContactView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ContactsListViewModel}">
+                    <views:ContactsListView />
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </Window>
