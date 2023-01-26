@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EC04_C_sharp_Adress_book_WpfApp.MVVM.Views"
              xmlns:viewmodels="clr-namespace:EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels"
+             xmlns:models="clr-namespace:EC04_C_sharp_Adress_book_WpfApp.MVVM.Models"
              d:DataContext="{d:DesignInstance Type=viewmodels:ContactsListViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -33,11 +34,11 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Margin="20" VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
-                <Button Content="Remove" Style="{StaticResource MenuButton}" />
+                <Button Command="{Binding DeleteSelectedCommand}" Content="Remove" Style="{StaticResource MenuButton}" />
                 <Button Content="Update" Style="{StaticResource MenuButton}"/>
             </StackPanel>
         </Grid>
-        <ListView x:Name="cohtactList" ItemsSource="{Binding Contacts}" Grid.Column="0" Background="White" SelectionMode="Single">
+        <ListView x:Name="contactList" ItemsSource="{Binding Contacts}" SelectedItem="{Binding SelectedContact}" Grid.Column="0" Background="White" SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="First name" Width="auto" DisplayMemberBinding="{Binding FirstName}" />
@@ -51,18 +52,36 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
+            <!--<ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:ContactModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="{Binding FirstName}" />
+                            <TextBlock Text="{Binding LastName}" />
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Button x:Name="btn_Remove" Click="btn_Remove_Click" Content="Remove" Style="{StaticResource MenuButton}" />
+                            <Button x:Name="btn_Edit" Click="btn_Edit_Click"  Content="Update" Style="{StaticResource MenuButton}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>-->
         </ListView>
-        <StackPanel Grid.Column="1" Grid.Row="0" Margin="0 0 25 0">
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="25 0 25 0">
             <TextBlock Text="First name"/>
-            <TextBox Margin="5 0 5 5" Text="{Binding SelectedItem.FirstName, ElementName=cohtactList}" />
+            <TextBox Margin="0 0 0 5" Text="{Binding SelectedItem.FirstName, ElementName=contactList}" />
             <TextBlock Text="Last name"/>
-            <TextBox Margin="5 0 5 5" Text="{Binding SelectedItem.LastName, ElementName=cohtactList}" />
+            <TextBox Margin="0 0 0 5" Text="{Binding SelectedItem.LastName, ElementName=contactList}" />
             <TextBlock Text="Email"/>
-            <TextBox Margin="5 0 5 5" Text="{Binding SelectedItem.Email, ElementName=cohtactList}" />
+            <TextBox Margin="0 0 0 5" Text="{Binding SelectedItem.Email, ElementName=contactList}" />
             <TextBlock Text="Phone number"/>
-            <TextBox Margin="5 0 5 5" Text="{Binding SelectedItem.PhoneNumber, ElementName=cohtactList}" />
+            <TextBox Margin="0 0 0 5" Text="{Binding SelectedItem.PhoneNumber, ElementName=contactList}" />
             <TextBlock Text="Address"/>
-            <TextBox Margin="5 0 5 5" Text="{Binding SelectedItem.Address, ElementName=cohtactList}" />
+            <TextBox Margin="0 0 0 5" Text="{Binding SelectedItem.Address, ElementName=contactList}" />
         </StackPanel>
         
     </Grid>

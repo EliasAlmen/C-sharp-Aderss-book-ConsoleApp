@@ -46,10 +46,11 @@ namespace EC04_C_sharp_Adress_book_WpfApp.Services
         }
 
         // Remove contact from contacts list
-        public void Delete(ContactModel contact)
+        public void Delete(ContactModel model)
         {
-            contacts.Remove(contact);
+            contacts.Remove(model);
             SaveToFile();
+            ReadFromFile();
 
         }
 
