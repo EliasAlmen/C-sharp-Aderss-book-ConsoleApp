@@ -36,7 +36,7 @@
         <StackPanel Grid.Column="0" Grid.Row="1">
             <Button Content="Contact list" Style="{StaticResource MenuButton}" Command="{Binding GoToContactListCommand}" />
             <Button Content="Add contact" Style="{StaticResource MenuButton}" Command="{Binding GoToAddContactCommand}" />
-            <Button Content="Exit" Style="{StaticResource MenuButton}"/>
+            <Button Content="Exit" Style="{StaticResource MenuButton}" Command="{Binding ExitCommand}"/>
         </StackPanel>
         <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding CurrentViewModel}">
             <ContentControl.Resources>
