@@ -4,10 +4,66 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EC04_C_sharp_Adress_book_WpfApp.MVVM.Views"
+             xmlns:viewmodels="clr-namespace:EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:ContactsListViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Background" Value="Gray" />
+            <Setter Property="Foreground" Value="LightGray" />
+            <Setter Property="BorderBrush" Value="DarkGray" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="Light" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="50" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <TextBlock>contactList</TextBlock>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="20" VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+                <Button Content="Remove" Style="{StaticResource MenuButton}" />
+                <Button Content="Update" Style="{StaticResource MenuButton}"/>
+            </StackPanel>
+        </Grid>
+        <ListView x:Name="cohtactList" ItemsSource="{Binding Contacts}" Grid.Column="0" Background="White" SelectionMode="Single">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="First name" Width="auto" DisplayMemberBinding="{Binding FirstName}" />
+                    <GridViewColumn Header="Last name" Width="auto" DisplayMemberBinding="{Binding LastName}" />
+                    <GridViewColumn Header="Email" Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Email}" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="0 0 25 0">
+            <TextBlock Text="First name"/>
+            <TextBox Margin="5 0 5 5" Text="{Binding SelectedItem.FirstName, ElementName=cohtactList}" />
+            <TextBlock Text="Last name"/>
+            <TextBox Margin="5 0 5 5" Text="{Binding SelectedItem.LastName, ElementName=cohtactList}" />
+            <TextBlock Text="Email"/>
+            <TextBox Margin="5 0 5 5" Text="{Binding SelectedItem.Email, ElementName=cohtactList}" />
+            <TextBlock Text="Phone number"/>
+            <TextBox Margin="5 0 5 5" Text="{Binding SelectedItem.PhoneNumber, ElementName=cohtactList}" />
+            <TextBlock Text="Address"/>
+            <TextBox Margin="5 0 5 5" Text="{Binding SelectedItem.Address, ElementName=cohtactList}" />
+        </StackPanel>
+        
     </Grid>
 </UserControl>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels
 {
@@ -24,5 +25,9 @@ namespace EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels
         {
             CurrentViewModel = new ContactsListViewModel();
         }
+
+        [RelayCommand]
+        private void Exit()
+            => Application.Current.Shutdown();
     }
 }
