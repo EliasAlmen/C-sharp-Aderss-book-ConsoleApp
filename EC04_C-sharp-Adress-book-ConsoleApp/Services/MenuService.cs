@@ -10,10 +10,10 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
 {
 
 
-    internal class MenuService
+    public class MenuService
     {
         
-        private List<Contact> contacts = new List<Contact>();
+        public List<Contact> contacts = new List<Contact>();
         private readonly DatabaseService datab = new();
 
         public string FilePath { get; set; } = null!;

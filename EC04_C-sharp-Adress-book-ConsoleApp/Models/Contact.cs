@@ -16,7 +16,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Models
     //    string PhoneNumber { get; set; }
     //}
 
-    internal class Contact
+    public class Contact
     {
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
