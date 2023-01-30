@@ -32,21 +32,5 @@ namespace EC04_C_sharp_Adress_book_WpfApp.MVVM.Views
             fileService = new FileService();
         }
 
-        private void btn_Edit_Click(object sender, RoutedEventArgs e)
-        {
-            var button = (Button)sender;
-            var contact = (ContactModel)button.DataContext;
-
-            MessageBox.Show(contact.FirstName);
-        }
-
-        private void btn_Remove_Click(object sender, RoutedEventArgs e)
-        {
-            var button = (Button)sender;
-            var contact = (ContactModel)button.DataContext;
-
-            fileService.Delete(contact);
-            //ContactService.CsRemove(contact);
-        }
     }
 }

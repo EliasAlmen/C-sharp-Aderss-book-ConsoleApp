@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels
 {
@@ -52,12 +53,26 @@ namespace EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels
         [RelayCommand]
         private void Add()
         {
-            fileService.AddToList(new ContactModel { FirstName = FirstName, LastName = LastName, Email = Email, PhoneNumber = PhoneNumber, Address = Address });
-            FirstName = string.Empty;
-            LastName = string.Empty;
-            Email = string.Empty;
-            PhoneNumber = string.Empty;
-            Address = string.Empty;
+            if (FirstName == string.Empty || LastName == string.Empty || Email == string.Empty || PhoneNumber == string.Empty || Address == string.Empty)
+            {
+                MessageBox.Show("Please fill in all text fields.");
+            }
+            else
+            {
+                var FirstNameUpper = FileService.ToUpperFirstLetter(FirstName);
+                var LastNameUpper = FileService.ToUpperFirstLetter(LastName);
+                var EmailUpper = FileService.ToUpperFirstLetter(Email);
+                var AddressUpper = FileService.ToUpperFirstLetter(Address);
+
+                fileService.AddToList(new ContactModel { FirstName = FirstNameUpper, LastName = LastNameUpper, Email = EmailUpper, PhoneNumber = PhoneNumber, Address = AddressUpper });
+                FirstName = string.Empty;
+                LastName = string.Empty;
+                Email = string.Empty;
+                PhoneNumber = string.Empty;
+                Address = string.Empty;
+                MessageBox.Show($"{FirstNameUpper}\n{LastNameUpper}\n\nAdded.");
+
+            }
         }
     }
 }

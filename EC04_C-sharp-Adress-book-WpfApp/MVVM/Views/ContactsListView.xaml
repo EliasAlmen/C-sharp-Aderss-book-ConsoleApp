@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <Style x:Key="MenuButton" TargetType="Button">
             <Setter Property="Background" Value="Gray" />
-            <Setter Property="Foreground" Value="LightGray" />
+            <Setter Property="Foreground" Value="DarkSlateGray" />
             <Setter Property="BorderBrush" Value="DarkGray" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="FontSize" Value="14" />
@@ -35,10 +35,10 @@
             </Grid.RowDefinitions>
             <StackPanel Margin="20" VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
                 <Button Command="{Binding DeleteSelectedCommand}" Content="Remove" Style="{StaticResource MenuButton}" />
-                <Button Content="Update" Style="{StaticResource MenuButton}"/>
+                <Button Command="{Binding UpdateSelectedCommand}" Content="Update" Style="{StaticResource MenuButton}"/>
             </StackPanel>
         </Grid>
-        <ListView x:Name="contactList" ItemsSource="{Binding Contacts}" SelectedItem="{Binding SelectedContact}" Grid.Column="0" Background="White" SelectionMode="Single">
+        <ListView x:Name="contactList" ItemsSource="{Binding Contacts}" SelectedItem="{Binding SelectedContact}" Grid.Column="0" Margin="0 0 0 25" Background="White" SelectionMode="Single">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="First name" Width="auto" DisplayMemberBinding="{Binding FirstName}" />
@@ -71,7 +71,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>-->
         </ListView>
-        <StackPanel Grid.Column="1" Grid.Row="0" Margin="25 0 25 0">
+        <StackPanel TextBlock.Foreground="DarkSlateGray"  Grid.Column="1" Grid.Row="0" Margin="25 0 25 0">
             <TextBlock Text="First name"/>
             <TextBox Margin="0 0 0 5" Text="{Binding SelectedItem.FirstName, ElementName=contactList}" />
             <TextBlock Text="Last name"/>
@@ -83,6 +83,5 @@
             <TextBlock Text="Address"/>
             <TextBox Margin="0 0 0 5" Text="{Binding SelectedItem.Address, ElementName=contactList}" />
         </StackPanel>
-        
     </Grid>
 </UserControl>

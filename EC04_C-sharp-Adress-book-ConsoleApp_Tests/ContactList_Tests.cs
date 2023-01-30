@@ -24,5 +24,16 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp_Tests
             //Assert
             Assert.Single(_menuService.contacts);
         }
+
+        [Fact]
+        public void Expected_to_remove_contact_from_list()
+        {
+            //Act
+            _menuService.contacts.Add(contact);
+            _menuService.contacts.Remove(contact);
+
+            //Assert
+            Assert.Empty(_menuService.contacts);
+        }
     }
 }
