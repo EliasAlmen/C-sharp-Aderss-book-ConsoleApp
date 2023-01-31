@@ -13,21 +13,15 @@ namespace EC04_C_sharp_Adress_book_WpfApp.Services
 {
     public class FileService
     {
+        // Where the file goes!
         private readonly string filePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\contactswpf.json";
         
-
-        private ObservableCollection<ContactModel> contacts;
+        //Prop
+        private ObservableCollection<ContactModel> contacts = new();
 
         public FileService()
         {
-            try
-            {
-                ReadFromFile();
-            }
-            catch 
-            {
-                contacts = new ObservableCollection<ContactModel>();
-            }
+            ReadFromFile();
         }
 
         // Tries to find file on desktop and deserializes it and updates contacts list with the data
@@ -37,8 +31,12 @@ namespace EC04_C_sharp_Adress_book_WpfApp.Services
             {
                 using var sr = new StreamReader(filePath);
                 contacts = JsonConvert.DeserializeObject<ObservableCollection<ContactModel>>(sr.ReadToEnd())!;
+
             }
-            catch { contacts = new ObservableCollection<ContactModel>(); }
+            catch 
+            { 
+                contacts = new ObservableCollection<ContactModel>(); 
+            }
         }
 
         // Saves JSON file on desktop
@@ -62,6 +60,7 @@ namespace EC04_C_sharp_Adress_book_WpfApp.Services
             SaveToFile();
         }
 
+        // Found on stackoverflow
         public static string ToUpperFirstLetter(string source)
         {
             if (string.IsNullOrEmpty(source))

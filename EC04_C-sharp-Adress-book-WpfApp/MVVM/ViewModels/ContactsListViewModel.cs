@@ -36,13 +36,28 @@ namespace EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels
             //Simple check if anything is selected in ViewList
             if (SelectedContact != null)
             {
-                //for the backend
                 var contactBackend = SelectedContact;
-                //for the GUI
-                Contacts.Remove(SelectedContact);
-                //for the backend
-                fileService.Delete(contactBackend);
-                MessageBox.Show($"{contactBackend.FirstName}\n{contactBackend.LastName}\n\nDeleted.");
+                MessageBoxResult result = MessageBox.Show($"Remove {contactBackend.FirstName} {contactBackend.LastName} \n\nAre you sure?", "Remove contact", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                
+                
+                switch (result)
+                {
+                    case MessageBoxResult.None:
+                        break;
+                    case MessageBoxResult.Yes:
+                        //for the backend
+                        //for the GUI
+                        Contacts.Remove(SelectedContact);
+                        //for the backend
+                        fileService.Delete(contactBackend);
+                        MessageBox.Show($"{contactBackend.FirstName}\n{contactBackend.LastName}\n\nDeleted.");
+                        break;
+                    case MessageBoxResult.No:
+                        MessageBox.Show($"{contactBackend.FirstName}\n{contactBackend.LastName}\n\nWas not deleted.");
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {
