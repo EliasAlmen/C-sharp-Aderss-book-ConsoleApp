@@ -13,7 +13,7 @@ namespace EC04_C_sharp_Adress_book_WpfApp.Services
 {
     public class FileService
     {
-        private string filePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\contactswpf.json";
+        private readonly string filePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\contactswpf.json";
         
 
         private ObservableCollection<ContactModel> contacts;
