@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:EC04_C_sharp_Adress_book_WpfApp.MVVM.Views" 
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
-        Title="The Address book - Elias Almén" Height="450" Width="800"
+        Title="The Address book - by Elias Almén" Height="450" Width="800"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="MenuButton" TargetType="Button">
