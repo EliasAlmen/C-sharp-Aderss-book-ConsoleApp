@@ -9,7 +9,11 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         Title="The Address book - by Elias Almén" Height="450" Width="800"
-        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
     <Window.Resources>
         <Style x:Key="MenuButton" TargetType="Button">
             <Setter Property="Background" Value="Gray" />
@@ -24,7 +28,7 @@
             <Setter Property="Margin" Value="5" />
         </Style>
     </Window.Resources>
-    <Grid Background="Gray">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
             <ColumnDefinition />
@@ -33,7 +37,15 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock TextWrapping="WrapWithOverflow" Margin="25 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Text="The Address book - by Elias Almén" FontSize="12" FontWeight="Medium" Foreground="DarkSlateGray"/>
+        <Border Grid.ColumnSpan="2" Grid.RowSpan="2" CornerRadius="10">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Color="gray" Offset="1"/>
+                    <GradientStop Color="DarkGray" Offset="0"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <TextBlock TextWrapping="WrapWithOverflow" Margin="25 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Text="The Contact book - by Elias Almén" FontSize="12" FontWeight="Medium" Foreground="DarkSlateGray"/>
         <StackPanel Grid.Column="0" Grid.Row="1">
             <Button Content="Contact list" Style="{StaticResource MenuButton}" Command="{Binding GoToContactListCommand}" />
             <Button Content="Add contact" Style="{StaticResource MenuButton}" Command="{Binding GoToAddContactCommand}" />
