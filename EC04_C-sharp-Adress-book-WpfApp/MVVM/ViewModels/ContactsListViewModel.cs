@@ -16,8 +16,6 @@ namespace EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels
     {
         private readonly FileService fileService;
 
-        
-
         [ObservableProperty]
         private ObservableCollection<ContactModel> contacts;
 
@@ -30,6 +28,8 @@ namespace EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels
         [ObservableProperty]
         private ContactModel selectedContact = null!;
 
+
+        // Delete selected contact, with MessageBox YesNo
         [RelayCommand]
         public void DeleteSelected()
         {
@@ -65,6 +65,7 @@ namespace EC04_C_sharp_Adress_book_WpfApp.MVVM.ViewModels
             }
         }
 
+        // Updates contact compares to list and saves file
         [RelayCommand]
         public void UpdateSelected()
         {

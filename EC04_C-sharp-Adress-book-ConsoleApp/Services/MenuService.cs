@@ -18,13 +18,22 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
 
         public string FilePath { get; set; } = null!;
         
-
+        
         public void MainMenu()
         {
+            // Reads the JSON file
             PopulateContacts();
+
+            // headings
             MenuHeadings();
+
+            // Menu options
             MenuOptions();
+
+            // footer
             MenuFooter();
+
+            // User input method, checks that the input correspond with menu options
             UserInput();
         }
 
@@ -131,10 +140,12 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
         }
         private void SubMenuOne()
         {
+            // creates contact
             var contact = new Contact();
             Console.WriteLine("Please enter the following information about your new contact.\nConfirm by pressing Enter.");
             MenuFooter();
 
+            // Set contact with data
             AddContactInfo("First name");
             var firstName = UserInputContact("firstName");
             contact.FirstName = firstName ?? null!;
@@ -155,17 +166,21 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
             var adress = UserInputContact("adress");
             contact.Address = adress ?? null!;
 
+            // Add contact to list
             contacts.Add(contact);
 
+            // Save contact to JSON
             datab.Save(FilePath, JsonConvert.SerializeObject(contacts));
         }
 
+        // Saves some console.readlines....
         private static string? UserInputContact(string? contactClassProperty)
         {
             contactClassProperty = Console.ReadLine();
             return contactClassProperty;
         }
 
+        // Saves some console.writelines....
         private static void AddContactInfo(string contactInfo)
         {
             Console.Write($"{contactInfo}: ");
@@ -186,8 +201,13 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                 Console.WriteLine("Your adress book contains the following contacts: \n");
                 foreach (Contact contact in contacts)
                 {
+                    // List all contacts
                     Console.WriteLine($"{contact.FirstName, -20}" + $"{contact.LastName, -20}" + $"{contact.Email, -20}");
+
+                    // for visual effect :D 
                     System.Threading.Thread.Sleep(200);
+
+
                     /*
                      So funny.. I spent alot of time building the if-statements below. But only to find out later that i can reserve space like above ', -20'
                      */
@@ -222,6 +242,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
 
 
             }
+            //press anykey to continue, where is the anykey...
             AnyKey();
         }
         private void SubMenuThree()
@@ -240,6 +261,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                 int i = 1;
                 foreach (Contact contact in contacts)
                 {
+                    // #index-number i++ solution to choose which contact to display detailed data
                     Console.WriteLine($"#{i++, -5}" + $"{contact.FirstName, -20}" + $"{contact.LastName, -20}");
                     System.Threading.Thread.Sleep(200);
 
@@ -285,6 +307,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                 int i = 1;
                 foreach (Contact contact in contacts)
                 {
+                    // #index-number i++ solution to choose which contact to display detailed data
                     Console.WriteLine($"#{i++,-5}" + $"{contact.FirstName,-20}" + $"{contact.LastName,-20}");
                     System.Threading.Thread.Sleep(200);
 
@@ -296,6 +319,7 @@ namespace EC04_C_sharp_Adress_book_ConsoleApp.Services
                 contactNumber -= 1;
                 Console.Clear();
                 MenuHeadings(); 
+                //Confirm choice
                 Console.WriteLine($"Are you sure you want to delete contact: {contacts[contactNumber].FirstName} {contacts[contactNumber].LastName} ? y/n");
                 MenuFooter();   
                 Console.Write("Your input: ");
